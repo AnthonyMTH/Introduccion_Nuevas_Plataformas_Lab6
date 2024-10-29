@@ -15,7 +15,7 @@ class EdificioView(context: Context?) : View(context) {
 
     init {
         paint.color = Color.BLACK
-        paint.strokeWidth = 5f
+        paint.strokeWidth = 10f
         paint.style = Paint.Style.STROKE
     }
 
@@ -24,15 +24,17 @@ class EdificioView(context: Context?) : View(context) {
 
         // Dibujar cada ambiente
         ambientes.forEach { ambiente ->
+            paint.strokeWidth = 10f
             canvas?.drawRect(ambiente.rect, paint)
+            paint.strokeWidth = 3f
             drawLabel(canvas, ambiente)
         }
     }
 
     private fun drawLabel(canvas: Canvas?, ambiente: Ambiente) {
         paint.textSize = 40f
-        paint.style = Paint.Style.FILL
         canvas?.drawText(ambiente.nombre, ambiente.rect.centerX(), ambiente.rect.centerY(), paint)
+
     }
 
     fun setAmbientes(ambientes: List<Ambiente>) {

@@ -20,7 +20,8 @@ class EdificioViewModel : ViewModel() {
             Ambiente("Patio 1", RectF(100f, 100f, 300f, 300f)),
             Ambiente("Salón 1", RectF(350f, 100f, 550f, 300f)),
             Ambiente("Patio 2", RectF(100f, 350f, 300f, 550f)),
-            Ambiente("Salón 2", RectF(350f, 350f, 550f, 550f))
+            Ambiente("Salón 2", RectF(350f, 350f, 550f, 550f)),
+
         )
         _ambientes.postValue(listaAmbientes)
     }
