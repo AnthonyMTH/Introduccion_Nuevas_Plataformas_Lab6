@@ -33,7 +33,7 @@ class EdificioView(context: Context?) : View(context) {
 
     private fun drawLabel(canvas: Canvas?, ambiente: Ambiente) {
         paint.textSize = 40f
-        canvas?.drawText(ambiente.nombre, ambiente.rect.centerX(), ambiente.rect.centerY(), paint)
+        canvas?.drawText(ambiente.nombre, ambiente.rect.centerX()- 85f, ambiente.rect.centerY(), paint)
 
     }
 
