@@ -1,28 +1,41 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.graphics.RectF
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.opencsv.CSVReader
+import java.io.InputStreamReader
 
 class EdificioViewModel : ViewModel() {
 
     private val _ambientes = MutableLiveData<List<Ambiente>>()
     val ambientes: LiveData<List<Ambiente>> get() = _ambientes
 
-    init {
-        cargarDatosDesdeArchivo()
-    }
+    fun cargarDatosDesdeCSV(context: Context, archivo: String) {
+        val listaAmbientes = mutableListOf<Ambiente>()
 
-    private fun cargarDatosDesdeArchivo() {
-        // Simulación de lectura desde un archivo JSON o CSV
-        val listaAmbientes = listOf(
-            Ambiente("Patio 1", RectF(100f, 100f, 300f, 300f)),
-            Ambiente("Salón 1", RectF(350f, 100f, 550f, 300f)),
-            Ambiente("Patio 2", RectF(100f, 350f, 300f, 550f)),
-            Ambiente("Salón 2", RectF(350f, 350f, 550f, 550f)),
+        // Abre el archivo CSV desde los assets
+        context.assets.open(archivo).use { inputStream ->
+            val reader = CSVReader(InputStreamReader(inputStream))
 
-        )
+            // Leer cada fila del CSV
+            var line = reader.readNext() // Ignorar la cabecera
+            while (reader.readNext().also { line = it } != null) {
+                val nombre = line[0]
+                val x1 = line[1].toFloat()
+                val y1 = line[2].toFloat()
+                val x2 = line[3].toFloat()
+                val y2 = line[4].toFloat()
+
+                // Crear el objeto RectF usando los vértices
+                val rect = RectF(x1, y1, x2, y2)
+                listaAmbientes.add(Ambiente(nombre, rect))
+            }
+        }
+
+        // Publicar la lista en el LiveData
         _ambientes.postValue(listaAmbientes)
     }
 }

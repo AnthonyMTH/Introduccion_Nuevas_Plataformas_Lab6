@@ -18,13 +18,19 @@ class EdificioFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this).get(EdificioViewModel::class.java)
+        // Inicializar el ViewModel
+        viewModel = ViewModelProvider(this)[EdificioViewModel::class.java]
+
+        // Llamar al método para cargar los datos desde el CSV
+        viewModel.cargarDatosDesdeCSV(requireContext(), "ambientes.csv")
+
+        // Crear la vista personalizada
         val edificioView = EdificioView(context)
 
-        // Observar los datos de los ambientes y actualizar la vista
-        viewModel.ambientes.observe(viewLifecycleOwner, Observer { ambientes ->
+        // Observar los datos y actualizar la vista
+        viewModel.ambientes.observe(viewLifecycleOwner) { ambientes ->
             edificioView.setAmbientes(ambientes)
-        })
+        }
 
         return edificioView
     }
