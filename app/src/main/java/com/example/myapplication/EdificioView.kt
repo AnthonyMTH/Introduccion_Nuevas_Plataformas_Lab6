@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.Rect
 import android.graphics.RectF
 import android.view.MotionEvent
 import android.view.View
@@ -22,19 +24,28 @@ class EdificioView(context: Context?) : View(context) {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        // Dibujar cada ambiente
+        // Dibujar cada ambiente usando Path
         ambientes.forEach { ambiente ->
+            val path = Path()
+            // Define el Path de acuerdo a las dimensiones y posición del rectángulo del ambiente
+            path.addRect(ambiente.rect, Path.Direction.CW)
+
             paint.strokeWidth = 10f
-            canvas?.drawRect(ambiente.rect, paint)
+            canvas.drawPath(path, paint)
             paint.strokeWidth = 3f
-            drawLabel(canvas, ambiente)
+            drawLabel(canvas, ambiente, path)
         }
     }
 
-    private fun drawLabel(canvas: Canvas?, ambiente: Ambiente) {
+    private fun drawLabel(canvas: Canvas, ambiente: Ambiente, path: Path) {
         paint.textSize = 40f
-        canvas?.drawText(ambiente.nombre, ambiente.rect.centerX()- 85f, ambiente.rect.centerY(), paint)
+        val bounds = Rect()
+        paint.getTextBounds(ambiente.nombre, 0, ambiente.nombre.length, bounds)
 
+        val x = ambiente.rect.centerX() - bounds.width() / 2
+        val y = ambiente.rect.centerY() + bounds.height() / 2
+
+        canvas.drawText(ambiente.nombre, x, y, paint)
     }
 
     fun setAmbientes(ambientes: List<Ambiente>) {
