@@ -7,6 +7,8 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.view.MotionEvent
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.fragments.AmbienteDetailFragment
 
 class EdificioView(context: Context?) : View(context) {
 
@@ -60,11 +62,15 @@ class EdificioView(context: Context?) : View(context) {
     }
 
     private fun mostrarInformacionAmbiente(ambiente: Ambiente) {
-        // Mostrar ventana emergente con información adicional del ambiente
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(ambiente.nombre)
-        builder.setMessage("Información adicional del ambiente: ${ambiente.nombre}")
-        builder.setPositiveButton("Cerrar", null)
-        builder.show()
+        val fragment = AmbienteDetailFragment.newInstance(
+            nombre = ambiente.nombre,
+            descripcion = "Descripción del ambiente seleccionado."
+        )
+
+        val activity = context as? AppCompatActivity
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.container, fragment)
+            ?.addToBackStack(null)
+            ?.commit()
     }
 }
