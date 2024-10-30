@@ -14,12 +14,14 @@ class AmbienteDetailFragment : Fragment() {
 
     private var nombreAmbiente: String? = null
     private var descripcionAmbiente: String? = null
+    private var imagenAmbiente: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             nombreAmbiente = it.getString(ARG_AMBIENTE_NAME)
             descripcionAmbiente = it.getString(ARG_AMBIENTE_DESCRIPTION)
+            imagenAmbiente = it.getInt(ARG_AMBIENTE_IMAGE)
         }
     }
 
@@ -34,7 +36,7 @@ class AmbienteDetailFragment : Fragment() {
         view.findViewById<TextView>(R.id.text_view_ambiente_description).text = descripcionAmbiente ?: "Descripción no disponible."
 
         // Configurar una imagen de ejemplo
-        view.findViewById<ImageView>(R.id.image_view_ambiente).setImageResource(R.drawable.patiosimonbolivar)
+        view.findViewById<ImageView>(R.id.image_view_ambiente).setImageResource(imagenAmbiente ?: R.drawable.noimagenfound )
 
         // Botton regresar
         view.findViewById<Button>(R.id.button_regresar).setOnClickListener {
@@ -48,12 +50,14 @@ class AmbienteDetailFragment : Fragment() {
     companion object {
         private const val ARG_AMBIENTE_NAME = "nombreAmbiente"
         private const val ARG_AMBIENTE_DESCRIPTION = "descripcionAmbiente"
+        private const val ARG_AMBIENTE_IMAGE = "imagenAmbiente"
 
-        fun newInstance(nombre: String, descripcion: String): AmbienteDetailFragment {
+        fun newInstance(nombre: String, descripcion: String, image: Int): AmbienteDetailFragment {
             val fragment = AmbienteDetailFragment()
             val args = Bundle()
             args.putString(ARG_AMBIENTE_NAME, nombre)
             args.putString(ARG_AMBIENTE_DESCRIPTION, descripcion)
+            args.putInt(ARG_AMBIENTE_IMAGE, image)
             fragment.arguments = args
             return fragment
         }

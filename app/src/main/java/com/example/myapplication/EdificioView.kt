@@ -75,7 +75,15 @@ class EdificioView(context: Context?) : View(context) {
     private fun mostrarInformacionAmbiente(ambiente: Ambiente) {
         val fragment = AmbienteDetailFragment.newInstance(
             nombre = ambiente.nombre,
-            descripcion = "Descripción del ambiente seleccionado."
+            descripcion = ambiente.descripcion,
+            image = when(ambiente.nombre) {
+                "Ambiente 1" -> R.drawable.ambiente1
+                "Ambiente 2" -> R.drawable.ambiente2
+                "Ambiente 3" -> R.drawable.ambiente3
+                "Ambiente 4" -> R.drawable.ambiente4
+                "Patio" -> R.drawable.patio
+                else -> R.drawable.noimagenfound
+            }
         )
 
         val activity = context as? AppCompatActivity

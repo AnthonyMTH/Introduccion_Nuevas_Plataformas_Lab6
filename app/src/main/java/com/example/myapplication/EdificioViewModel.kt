@@ -28,10 +28,11 @@ class EdificioViewModel : ViewModel() {
                 val y1 = line[2].toFloat()
                 val x2 = line[3].toFloat()
                 val y2 = line[4].toFloat()
+                val description = line[5]
 
                 // Crear el objeto RectF usando los vértices
                 val rect = RectF(x1, y1, x2, y2)
-                listaAmbientes.add(Ambiente(nombre, rect))
+                listaAmbientes.add(Ambiente(nombre, rect, description))
             }
         }
 
